@@ -1,10 +1,14 @@
 #!/bin/sh
 # Copyleft Efenstor 2025-2026
+# Revision 2026.05-1
 
 TEXT_HEIGHT=1.2
 TEXT_X_OFF=1
 TEXT_Y_OFF=0
 CIRCLE_RADIUS=.5
+
+# Convert the output to CP1251 (Windows)
+conv1251=1
 
 # Help
 if [ $# -lt 1 ]; then
@@ -20,6 +24,7 @@ if [ $# -lt 1 ]; then
   -x: X-координата идёт первой (по умолчанию: геодезический порядок Y X)
   -i <номер>: игнорировать точку; параметр можно указывать несколько раз,
     -1 = последняя точка
+  -u: выходной файл в кодировке UTF-8 (по умолчанию конвертируется в CP1251)
 
 Входной файл может содержать лишние табуляции и пробелы, переводы строк в
 ошибочных местах, запятые в качестве разделителя плавающей точки: это всё не
@@ -30,7 +35,7 @@ if [ $# -lt 1 ]; then
 fi
 
 # Parse arguments
-optstr="?htcnxi:"
+optstr="?htcnxi:u"
 add_text= ; add_circles= ; use_pn=1; swap_xy= ; ign=
 while getopts $optstr opt; do
   if [ ! $? -eq 0 ]; then
@@ -47,6 +52,7 @@ while getopts $optstr opt; do
          ign="$ign""$OPTARG;"
        fi
        ;;
+    u ) conv1251=0 ;;
     \?) exit 1 ;;
   esac
 done
@@ -169,6 +175,13 @@ fi
 # Add circles
 if [ "$add_circles" ]; then
   printf -- "$circles" >> "$outfile"
+fi
+
+if [ $conv1251 -eq 1 ]; then
+  echo "Конвертируем файл в CP1251"
+  tmp=$(mktemp)
+  iconv -f UTF-8 -t WINDOWS-1251 "$outfile" > "$tmp"
+  mv "$tmp" "$outfile"
 fi
 
 echo "Готово!"
