@@ -5,7 +5,7 @@
 # https://www.coherentpdf.com/cpdfmanual.pdf
 # раздел "1.3 Input Ranges"
 
-DSTNAME="ПЗУ"  # имя pdf собранного файла
+DSTNAME="2. 2026.89241_00-ППО"  # имя pdf собранного файла
 RANGE="2-end"  # промежуток нумерации
 FIRST_PAGE=2  # номер первой страницы
 DSTDIR="ВЫДАЧА"  # имя директории для сборки
@@ -60,12 +60,12 @@ if [ ! -d "$DSTDIR" ]; then
 fi
 
 # Make pdf
-echo "Собираем $DSTNAME.pdf..."
+echo "Собираем \"$DSTNAME.pdf\"..."
 cpdf_find
-eval "$cpdf" -progress -merge-add-bookmarks $pdfs \
-  AND -prerotate -range $RANGE -bates-at-range $FIRST_PAGE -add-text "%Bates" \
-  -topright "9mm 10.5mm" -font "Arial" -font-size 11 \
-  -o "$DSTDIR"/"$DSTNAME".pdf; ec=$?
+eval \"$cpdf\" -progress -merge-add-bookmarks $pdfs \
+  AND -prerotate -range $RANGE -bates-at-range $FIRST_PAGE -add-text \"%Bates\" \
+  -topright \"9mm 10.5mm\" -font "Arial" -font-size 11 \
+  -o \"$DSTDIR\"/\"$DSTNAME\".pdf; ec=$?
 if [ $ec -ne 0 ]; then
   echo "Сборка не удалась! Ошибка $ec"
   exit
