@@ -5,7 +5,7 @@
 # https://www.coherentpdf.com/cpdfmanual.pdf
 # раздел "1.3 Input Ranges"
 
-DSTNAME="2. 2026.89241_00-ППО"  # имя pdf собранного файла
+DSTNAME="ПЗУ"  # имя pdf собранного файла
 RANGE="2-end"  # промежуток нумерации
 FIRST_PAGE=2  # номер первой страницы
 DSTDIR="ВЫДАЧА"  # имя директории для сборки
